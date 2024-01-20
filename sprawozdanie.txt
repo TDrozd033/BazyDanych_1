@@ -1,0 +1,50 @@
+Zad 1:
+
+Zapytanie:
+SELECT SalesOrderID, SalesOrderDetailID
+FROM Sales.SalesOrderDetail
+WHERE SalesOrderID = 43683
+ AND SalesOrderDetailID = 240
+A):
+Przypadek 1: ( gdy istnieje klucz główny )
+
+Czas wykonania operacji jest widocznie krótszy, dzięki kluczowi głównemu dostęp do rekordów jest optymalizowany. KO 
+Koszty operacji I/O wynoszą 0,0032831, czyli znacznie niższe. Jest to spowodowane tym, że klucz główny ułatwia wyszukiwaie konkretnych rekordów.
+Koszty CPU również są niższe i wynoszą 0,0001581. Przy wykorzystaniu klucza głównego operacje są znaccznie bardziej efektywne.
+Wczytana ilość wierszy jest minimalna bowiem wynosi dokładnie 1 ( dostęp odbywa się bezpośrednio przez klucz główny ).
+
+Przypadek 2: ( po usunięciu klucza głównego - tabela staje się wtedy stertą )
+
+Czas wykonania operacji po usunięciu klucza głównego znacznie się wydłużył, ponieważ wyszukiwanie musiało przeszukać całą tabelę. 
+Koszty operacji I/O też są wyższe, wynoszą 0,915718. Odnajdywanie rekordów jest utrudnione przez brak klucza głównego. 
+Koszty CPU również okazały się wyższe - 0,133606. 
+Wczytano 121317 wierszy. Ta liczba jest wynikiem, że przeszukana musiała zostać cała tabela.
+
+
+W przypadku zapytania SQL dotyczącego tabeli SalesOrderDetail istnieją istotne różnice między wykonaniem z kluczem głównym a po usunięciu klucza głównego. Gdy klucz główny istnieje, plan wykonania jest zoptymalizowany, co przekłada się na krótszy czas wykonania operacji, niższe koszty operacji I/O i CPU oraz minimalną ilość wczytanych wierszy. Usunięcie klucza głównego znacząco pogarsza wydajność, skutkując wydłużonym czasem wykonania, wyższymi kosztami operacji I/O i CPU oraz koniecznością przeszukania całej tabeli. 
+
+
+B): Zmiana słowa kluczowego z AND na OR wprowadza istotne zmiany w planie wykonania zapytania:
+
+AND: czyli oznacza konieczność spełnienia obu warunków. 
+
+OR: Oznacza, że wystarczy, aby spełniony był przynajmniej jeden z warunków.
+
+W wyniku zmiany na OR otrzymaliśmy więcej rekordów ( 7 ), ponieważ wymaganiem jest spełniony tylko jeden z warunków. Jeśli chodzi o aspekty takie jak koszty operacji, to zwiększają się one w wyniku tego, że zapytanie zwraca i przeszukuje więcej  więcej rekordów. 
+
+
+
+Zad 2: 
+Do tego zadania wybrałem tabelę Sales.SalesOrderHeader.
+ Moje zapytanie to: 
+ 
+ SELECT * FROM Sales.SalesOrderHeader
+ WHERE TerritoryID = 4;
+
+Indeksy zdecydowanie przyspieszają działanie, przeszukiwanie tabeli, Koszty operacji były znacznie wydajniejsze i plan wykonania był bardziej optymalny niż w przypadku gdy nie było indeksu.
+
+
+
+
+
+
